@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-ground: #0c0d0f;
+  --bg-card: #14161a;
+  --bg-card-hover: #1a1d22;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: #d56a29;
+  --text-primary: #fbf8f3;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg-ground);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Accessibility focus ring */
+  *:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* ==========================================================================
+     Button System (Consistent, Accessible, Touch-Friendly >= 44px)
+     ========================================================================== */
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-semibold text-sm rounded-xl px-5 py-3 transition-colors duration-150 select-none;
+    background-color: #d56a29;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(213, 106, 41, 0.25);
+  }
+  .btn-primary:hover {
+    background-color: #be5318;
+  }
+  .btn-primary:active {
+    background-color: #9e3f14;
+    transform: translateY(1px);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-semibold text-sm rounded-xl px-5 py-3 transition-colors duration-150 select-none text-zinc-200 border border-white/10;
+    background-color: #1a1d22;
+  }
+  .btn-secondary:hover {
+    background-color: #232730;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  .btn-secondary:active {
+    transform: translateY(1px);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center font-semibold text-sm rounded-xl px-5 py-3 transition-colors duration-150 select-none text-zinc-300 border border-white/15;
+    background-color: transparent;
+  }
+  .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* ==========================================================================
+     Card System (Rounded, Crisp Elevation, Subtle Depth)
+     ========================================================================== */
+  .card-base {
+    background-color: #14161a;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 1rem; /* 16px */
+    box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.35);
+  }
+
+  .card-interactive {
+    background-color: #14161a;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  }
+  .card-interactive:hover {
+    border-color: rgba(213, 106, 41, 0.35);
+    background-color: #171a1f;
+    transform: translateY(-2px);
+  }
+
+  /* ==========================================================================
+     Pill & Badge Styles
+     ========================================================================== */
+  .badge-kicker {
+    @apply inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-amberGrill-400 bg-amberGrill-500/10 border border-amberGrill-500/20;
+  }
+
+  /* ==========================================================================
+     Section Layout Standards
+     ========================================================================== */
+  .section-spacing {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+}
+
+/* Subtle, clean scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0d0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #232730;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #323742;
+}
