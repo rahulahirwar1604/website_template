@@ -18,7 +18,7 @@ The color palette is derived from the warmth of cast-iron searing, caramelized c
 | `amberGrill-500` | `#d56a29` | **Primary Brand Color** (artisan caramelized grill amber) |
 | `amberGrill-600` | `#be5318` | Primary button hover state |
 | `amberGrill-700` | `#9e3f14` | Primary button active state |
-| `cream-50` | `#fbf8f3` | High-contrast body & heading text |
+| `cream-50` | `#faf8f5` | High-contrast body & heading text |
 | `emerald-500` | `#10b981` | WhatsApp direct ordering & dietary vegetarian badges |
 | `red-500` | `#ef4444` | Spicy dietary indicators & deal callouts |
 
@@ -106,3 +106,32 @@ Consistent border radius and realistic, soft shadows replace neon glow effects:
 - Mobile drawer navigation with clear active route indicators.
 - Horizontal scrollable pill filter bar for categories on mobile without clipping.
 - Persistent WhatsApp Floating Action Button (FAB) anchored safely at `bottom-6 right-6` with dismissible helper tooltip.
+
+---
+
+## 8. How to Safely Change the Color Theme
+
+The website's theme is defined across two files that work in harmony: `tailwind.config.js` and `app/globals.css`.
+
+### Step 1: Update Tailwind Color Tokens (`tailwind.config.js`)
+Locate `theme.extend.colors`:
+- **Canvas & Card Surfaces**: Change `surface.ground` (`#0c0d0f`), `surface.card` (`#14161a`), and `surface.hover` (`#1a1d22`) to your client's background tone (e.g. warm charcoal, navy night, or olive dark).
+- **Primary Accent Palette**: Replace the `amberGrill` palette values (`50` through `950`). Set your primary brand color at index `500` (e.g. change `#d56a29` to a custom crimson, emerald, or golden amber). Set `600` for hover and `700` for active states.
+
+### Step 2: Synchronize CSS Variables & Component Classes (`app/globals.css`)
+To keep utility classes and reusable component styles consistent:
+- **`:root` Variables**:
+  - Update `--bg-ground` and `--bg-card` to match your Tailwind surface values.
+  - Update `--border-focus` to match your new primary accent color.
+- **Button System (`@layer components`)**:
+  - Update `.btn-primary` `background-color` and `box-shadow` to your new primary color.
+  - Update `.btn-primary:hover` and `.btn-primary:active` to your darker shade variants.
+- **Card Interactive Hover**:
+  - Update `.card-interactive:hover` `border-color` to reflect your new accent color with appropriate alpha transparency.
+
+### Step 3: Verify the Theme
+Run the typecheck and build to confirm zero style collisions:
+```bash
+npm run lint
+npm run build
+```

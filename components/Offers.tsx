@@ -21,6 +21,7 @@ import { createWhatsAppUrl, getWhatsAppOrderMessage } from '@/lib/utils';
 
 export interface OffersProps {
   content?: OffersContent;
+  whatsappNumber?: string;
 }
 
 const OFFERS_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -35,7 +36,10 @@ const OFFERS_ICON_MAP: Record<string, React.ComponentType<{ className?: string }
   Zap,
 };
 
-export default function Offers({ content = businessConfig.offers }: OffersProps = {}) {
+export default function Offers({
+  content = businessConfig.offers,
+  whatsappNumber = businessConfig.whatsapp.number,
+}: OffersProps = {}) {
   const offers = content;
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
@@ -81,7 +85,7 @@ export default function Offers({ content = businessConfig.offers }: OffersProps 
                 : `I want to order the "${offer.title}" offer using coupon code [${offer.code}].`);
 
             const whatsappDealUrl = createWhatsAppUrl(
-              businessConfig.whatsapp.number,
+              whatsappNumber,
               getWhatsAppOrderMessage({
                 customMessage: offerMessage,
               })

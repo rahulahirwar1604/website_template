@@ -263,12 +263,16 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Before delivering to a client or deploying to production, verify build health:
 
-### TypeScript Check
+### TypeScript Validation (`npm run lint` / `npx tsc --noEmit`)
 Ensures all configuration fields match schema interfaces without type regressions:
 
 ```bash
+npm run lint
+# or directly:
 npx tsc --noEmit
 ```
+
+> **Note on Linting**: `npm run lint` currently performs TypeScript validation (`tsc --noEmit`). Running `npx tsc --noEmit` runs the same TypeScript check directly. No actual ESLint checks are performed by this script.
 
 ### Production Build
 Tests Next.js page generation, asset bundling, and static prerendering:

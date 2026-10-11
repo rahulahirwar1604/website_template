@@ -4,7 +4,13 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, Flame, Leaf, ArrowRight, UtensilsCrossed } from 'lucide-react';
 import MenuCard from './MenuCard';
-import { menuItems, menuCategories } from '@/data/menu';
+import {
+  menuItems as defaultMenuItems,
+  menuCategories as defaultMenuCategories,
+  MenuItem,
+  MenuCategory,
+} from '@/data/menu';
+import { businessConfig } from '@/data/business.config';
 
 export interface MenuSectionProps {
   featuredOnly?: boolean;
@@ -12,6 +18,9 @@ export interface MenuSectionProps {
   subtitle?: string;
   kicker?: string;
   searchPlaceholder?: string;
+  items?: MenuItem[];
+  categories?: MenuCategory[];
+  whatsappNumber?: string;
 }
 
 export default function MenuSection({
@@ -20,6 +29,9 @@ export default function MenuSection({
   subtitle = "Crafted fresh to order with premium ingredients and bold flavors.",
   kicker,
   searchPlaceholder = "Search dishes, ingredients, flavors...",
+  items = defaultMenuItems,
+  categories = defaultMenuCategories,
+  whatsappNumber = businessConfig.whatsapp.number,
 }: MenuSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,8 +41,8 @@ export default function MenuSection({
   // Compute filtered items
   const filteredItems = useMemo(() => {
     let list = featuredOnly
-      ? menuItems.filter((i) => i.isPopular || i.isChefSpecial)
-      : menuItems;
+      ? items.filter((i) => i.isPopular || i.isChefSpecial)
+      : items;
 
     if (!featuredOnly && selectedCategory !== 'All') {
       list = list.filter((i) => i.category === selectedCategory);
@@ -55,7 +67,7 @@ export default function MenuSection({
     }
 
     return list;
-  }, [featuredOnly, selectedCategory, onlyVegetarian, onlySpicy, searchQuery]);
+  }, [featuredOnly, items, selectedCategory, onlyVegetarian, onlySpicy, searchQuery]);
 
   return (
     <section id="menu-section" className="section-spacing bg-[#0c0d0f] relative">
@@ -144,10 +156,10 @@ export default function MenuSection({
                     : 'bg-surface-card text-zinc-300 hover:text-white border border-white/10'
                 }`}
               >
-                All Items ({menuItems.length})
+                All Items ({items.length})
               </button>
 
-              {menuCategories.map((cat) => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
@@ -169,7 +181,7 @@ export default function MenuSection({
         {filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredItems.map((item) => (
-              <MenuCard key={item.id} item={item} />
+              <MenuCard key={item.id} item={item} whatsappNumber={whatsappNumber} />
             ))}
           </div>
         ) : (
@@ -201,7 +213,7 @@ export default function MenuSection({
               href="/menu"
               className="btn-primary px-8 py-3.5 text-base font-bold space-x-2"
             >
-              <span>View Complete Menu ({menuItems.length} Handcrafted Items)</span>
+              <span>View Complete Menu ({items.length} Handcrafted Items)</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

@@ -7,13 +7,17 @@ import { MenuItem } from '@/data/menu';
 import { businessConfig } from '@/data/business.config';
 import { formatPrice, createWhatsAppUrl, getWhatsAppOrderMessage } from '@/lib/utils';
 
-interface MenuCardProps {
+export interface MenuCardProps {
   item: MenuItem;
+  whatsappNumber?: string;
 }
 
-export default function MenuCard({ item }: MenuCardProps) {
+export default function MenuCard({
+  item,
+  whatsappNumber = businessConfig.whatsapp.number,
+}: MenuCardProps) {
   const whatsappUrl = createWhatsAppUrl(
-    businessConfig.whatsapp.number,
+    whatsappNumber,
     getWhatsAppOrderMessage({
       productName: item.name,
       price: item.price,
