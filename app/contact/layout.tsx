@@ -4,6 +4,9 @@ import { businessConfig } from '@/data/business.config';
 export const metadata: Metadata = {
   title: businessConfig.contactPage.metaTitle,
   description: businessConfig.contactPage.metaDescription,
+  alternates: {
+    canonical: '/contact',
+  },
 };
 
 export default function ContactLayout({
