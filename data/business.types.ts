@@ -37,6 +37,11 @@ export interface BusinessWhatsApp {
   chatHighlightDesc: string;
 }
 
+export interface OrderingPlatformsConfig {
+  zomatoUrl?: string;
+  swiggyUrl?: string;
+}
+
 export interface BusinessAddress {
   street: string;
   neighborhood: string;
@@ -105,8 +110,11 @@ export interface LocationContent {
   sectionTitle: string;
   sectionSubtitle: string;
   flagshipCardTitle: string;
+  sampleBadgeText?: string;
   hoursCardTitle: string;
   mapPinTitle: string;
+  mapPinSubtext?: string;
+  mapDirectionsButtonText?: string;
   callButtonText?: string;
   openStatusText?: string;
   inquiryMessage?: string;
@@ -307,6 +315,8 @@ export interface MenuPageContent {
   sectionTitle: string;
   sectionSubtitle: string;
   searchPlaceholder?: string;
+  showSampleRatings?: boolean;
+  sampleRatingsLabel?: string;
 }
 
 export interface TestimonialsContent {
@@ -327,6 +337,7 @@ export interface BusinessConfig {
   shortDescription: string;
   contact: BusinessContact;
   whatsapp: BusinessWhatsApp;
+  orderingPlatforms?: OrderingPlatformsConfig;
   address: BusinessAddress;
   city: string;
   openingHours: BusinessOpeningHours;

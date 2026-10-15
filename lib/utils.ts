@@ -68,3 +68,48 @@ export function getWhatsAppOrderUrl(
   const message = getWhatsAppOrderMessage(options);
   return createWhatsAppUrl(phone, message);
 }
+
+/**
+ * Safely validates whether a given URL string is an absolute, secure HTTPS URL
+ * and not a generic root homepage or unsafe protocol.
+ */
+export function isValidHttpsUrl(url?: string | null): boolean {
+  if (!url || typeof url !== 'string') return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.protocol !== 'https:' || !parsed.hostname) {
+      return false;
+    }
+    const cleanPath = parsed.pathname.replace(/\/+$/, '');
+    if (!cleanPath) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Validates a third-party partner listing URL (e.g. Zomato, Swiggy) to ensure
+ * it is a valid HTTPS restaurant listing and not a generic root domain or malformed URL.
+ */
+export function isValidPartnerUrl(
+  url?: string | null,
+  expectedDomainSnippet?: string
+): boolean {
+  if (!isValidHttpsUrl(url)) return false;
+  if (expectedDomainSnippet) {
+    try {
+      const parsed = new URL(url!.trim());
+      if (!parsed.hostname.toLowerCase().includes(expectedDomainSnippet.toLowerCase())) {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+  return true;
+}

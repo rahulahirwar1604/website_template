@@ -7,7 +7,9 @@ export interface MenuItem {
   originalPrice?: number;
   category: MenuCategory;
   image: string;
+  /** Illustrative template rating (1-5). Rendered with sample badge/label in UI. */
   rating: number;
+  /** Illustrative review count (not verified customer feedback; template demonstration). */
   reviewsCount: number;
   isPopular?: boolean;
   isSpicy?: boolean;
@@ -209,7 +211,7 @@ export const menuItems: MenuItem[] = [
       "Colossal sweet Vidalia onions dipped in craft IPA batter, served ultra-crisp with house smoked campfire dipping sauce.",
     price: 6.49,
     category: "Loaded Sides",
-    image: "https://images.unsplash.com/photo-1639024471287-032f66e700a9?auto=format&fit=crop&w=800&q=80",
+    image: "/images/menu/onion-rings.jpg",
     rating: 4.6,
     reviewsCount: 390,
     isVegetarian: true,

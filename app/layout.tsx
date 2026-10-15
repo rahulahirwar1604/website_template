@@ -2,10 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import FloatingOrderHub from '@/components/FloatingOrderHub';
 import { businessConfig } from '@/data/business.config';
 
+const siteUrl = businessConfig.seo.siteUrl.replace(/\/+$/, '');
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: businessConfig.seo.metaTitle,
   description: businessConfig.seo.metaDescription,
   keywords: businessConfig.seo.keywords,
@@ -78,7 +81,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -86,7 +89,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="bg-surface-ground text-cream-50 antialiased selection:bg-amberGrill-500 selection:text-white flex flex-col min-h-screen"
+        className="bg-surface-ground text-ink-primary antialiased selection:bg-amberGrill-500 selection:text-white flex flex-col min-h-screen"
         suppressHydrationWarning
       >
         <Navbar />
@@ -94,7 +97,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <WhatsAppButton />
+        <FloatingOrderHub />
       </body>
     </html>
   );

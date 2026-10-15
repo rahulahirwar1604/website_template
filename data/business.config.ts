@@ -21,19 +21,23 @@ export const businessConfig: BusinessConfig = {
     phone: "+15552862483",
     displayPhone: "+1 (555) BUN-BITE",
     email: "hello@bunandbite.com",
-    callHoursHint: "Mon–Sun from 11:00 AM",
-    emailResponseHint: "Average response within 24 hours",
+    callHoursHint: "Sample hours: Mon–Sun from 11:00 AM",
+    emailResponseHint: "Demo inbox • Configurable in business.config.ts",
   },
   whatsapp: {
     number: "+15552862483",
     displayNumber: "+1 (555) 286-2483",
-    fabTooltip: "Craving a burger? Order directly on WhatsApp",
+    fabTooltip: "Template Demo: Order directly on WhatsApp",
     fabDefaultMessage: "I would like to check today's specials and place an order.",
     fabAriaLabel: "Order or chat on WhatsApp",
     dismissTooltipAriaLabel: "Dismiss order popup",
     containerAriaLabel: "Direct WhatsApp Ordering Support",
-    chatHighlightBadge: "Need an Immediate Reply?",
-    chatHighlightDesc: "Our kitchen crew responds in minutes on WhatsApp for takeaway changes or order inquiries.",
+    chatHighlightBadge: "Template Ordering Demo",
+    chatHighlightDesc: "Sample WhatsApp channel. In production, connect your real restaurant line in data/business.config.ts.",
+  },
+  orderingPlatforms: {
+    zomatoUrl: undefined,
+    swiggyUrl: undefined,
   },
   address: {
     street: "742 Evergreen Grill Blvd",
@@ -42,10 +46,10 @@ export const businessConfig: BusinessConfig = {
     state: "CA",
     postalCode: "94103",
     country: "USA",
-    fullAddress: "742 Evergreen Grill Blvd, Downtown District, San Francisco, CA 94103",
-    landmarkHint: "Directly opposite Downtown Arts Square • Curbside Pickup Available",
+    fullAddress: "742 Evergreen Grill Blvd, Downtown District, San Francisco, CA 94103 (Fictional Demo Address)",
+    landmarkHint: "Fictional Demo Location • Replace with verified storefront address in business.config.ts",
     googleMapsUrl: "https://maps.google.com/?q=742+Evergreen+Grill+Blvd+San+Francisco+CA",
-    topBarBadge: "Handcrafted in San Francisco • Dine-in & Pickup",
+    topBarBadge: "Template Showcase • Artisan Burger Restaurant Demo",
   },
   openingHours: {
     todayStatus: "Today: 11:00 AM – 10:30 PM",
@@ -62,10 +66,10 @@ export const businessConfig: BusinessConfig = {
     { platform: "Twitter", url: "https://twitter.com/bunandbite", handle: "@bunandbite" },
   ],
   stats: [
-    { value: "350k+", label: "Burgers Smashed" },
-    { value: "4.9★", label: "Customer Rating (2.8k reviews)" },
+    { value: "450°F", label: "Searing Heat" },
+    { value: "4.9★", label: "Sample Rating (Demo)" },
     { value: "100%", label: "Prime Angus Beef" },
-    { value: "15 min", label: "Average Pickup Speed" },
+    { value: "15 min", label: "Target Pickup Speed" },
   ],
   features: [
     {
@@ -104,7 +108,7 @@ export const businessConfig: BusinessConfig = {
       cornerBadge: "Chef's Signature",
       recipeCategory: "Flagship Recipe",
       title: "The Classic OG Double Smash",
-      ratingText: "4.9 (1.4k+ reviews)",
+      ratingText: "4.9 (Sample Rating)",
       price: "$12.99",
       image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=85",
       imageAlt: "The Classic OG Double Smash Burger at Bun & Bite",
@@ -126,10 +130,13 @@ export const businessConfig: BusinessConfig = {
     sectionKicker: "Visit Our Grill House",
     sectionTitle: "Downtown San Francisco",
     sectionSubtitle:
-      "Dine in our modern grill space, enjoy the heated outdoor patio, or grab fast curbside pickup.",
-    flagshipCardTitle: "Flagship Location",
+      "Dine in our modern grill space (illustrative demo location). Replace with your verified storefront address.",
+    flagshipCardTitle: "Flagship Location (Demo Showcase)",
+    sampleBadgeText: "Sample Address",
     hoursCardTitle: "Grill Hours",
-    mapPinTitle: "Bun & Bite Downtown",
+    mapPinTitle: "Bun & Bite (Sample Demo Pin)",
+    mapPinSubtext: "Illustrative template pin for layout showcase.",
+    mapDirectionsButtonText: "Search Sample Address on Maps",
     callButtonText: "Call Restaurant",
     openStatusText: "Open Today",
     inquiryMessage: "I have a question regarding table reservation and takeout.",
@@ -141,13 +148,13 @@ export const businessConfig: BusinessConfig = {
     ],
   },
   offers: {
-    kicker: "Combos & Value Feasts",
+    kicker: "Sample Combos & Offers",
     kickerIcon: "Tag",
     title: "Special Smash Offers",
     subtitle:
-      "Engineered for flavor and value. Claim one of our chef bundles or limited weekday lunch deals.",
+      "Illustrative combo bundles and promotional coupon codes for template demonstration.",
     whatsappMessageTemplate:
-      'I want to order the "{title}" offer using coupon code [{code}].',
+      '[Template Demo Order] I would like to inquire about the "{title}" offer using sample code [{code}].',
     items: [
       {
         id: "deal-combo-duo",
@@ -198,10 +205,10 @@ export const businessConfig: BusinessConfig = {
     kickerIcon: "MessageSquare",
     title: "Loved by Burger Fanatics",
     subtitle:
-      "Real feedback from local food journalists, neighborhood regulars, and smash burger connoisseurs.",
+      "Illustrative customer praise and review showcases for this website template.",
     ratingScore: "4.9 / 5.0",
     ratingStars: 5,
-    socialProofText: "Over 2,800+ Verified Ratings",
+    socialProofText: "Sample Rating (Demo Showcase)",
     favoriteItemLabel: "Favorite:",
   },
   about: {
@@ -234,7 +241,7 @@ export const businessConfig: BusinessConfig = {
     metrics: [
       { value: "450°F", label: "Griddle Sizzle" },
       { value: "100%", label: "Angus Chuck" },
-      { value: "350k+", label: "Burgers Served" },
+      { value: "Demo", label: "Template Showcase" },
     ],
     pillarsTitle: "The Four Pillars of Quality",
     pillarsSubtitle:
@@ -278,7 +285,7 @@ export const businessConfig: BusinessConfig = {
       "Need catering for a company smash feast? Have feedback or dietary questions? Reach our team directly.",
     directChannelsTitle: "Direct Channels",
     directChannelsSubtitle:
-      "Feel free to reach out via phone, email, or instant WhatsApp messaging.",
+      "Sample contact points for demonstration. Connect your real phone and email in business.config.ts.",
     phoneCardLabel: "Call Us",
     emailCardLabel: "Email Us",
     addressCardLabel: "Grill Address",
@@ -309,9 +316,9 @@ export const businessConfig: BusinessConfig = {
       submitButtonText: "Send Message",
     },
     successMessage: {
-      title: "Message Dispatched!",
+      title: "Demo Submission Complete",
       descriptionTemplate:
-        "Thank you, {name}! We have received your inquiry regarding {inquiryType} and will get back to you shortly.",
+        "Thank you, {name}! This form interaction was simulated for demonstration—no email or inquiry regarding {inquiryType} was actually sent. The website owner must configure a real submission service before using this form for a real business.",
       resetButtonText: "Send Another Message",
     },
   },
@@ -345,6 +352,8 @@ export const businessConfig: BusinessConfig = {
     sectionSubtitle:
       "Filter by culinary category or search for your favorite toppings and sides.",
     searchPlaceholder: "Search burgers, ingredients, sauces...",
+    showSampleRatings: true,
+    sampleRatingsLabel: "Sample",
   },
   homeCta: {
     kicker: "Direct Ordering",
@@ -422,7 +431,7 @@ export const businessConfig: BusinessConfig = {
   },
   footer: {
     hoursTitle: "Kitchen Hours",
-    hoursNotice: "Orders accepted until 15 minutes before close.",
+    hoursNotice: "Orders accepted until 15 minutes before close. (Sample operating hours)",
     newsletterTitle: "Club Updates",
     newsletterSubtitle: "Receive secret menu drops and monthly neighborhood offers.",
     newsletterSuccessText: "Subscribed! Check your inbox for updates.",
