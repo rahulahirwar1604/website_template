@@ -19,7 +19,7 @@ export const testimonialsData: Testimonial[] = [
     comment:
       "I have tasted burgers across 30+ countries, but the lacy crispy edges on the OG Double Smash here are nothing short of culinary alchemy. The house brioche holds together effortlessly to the last drop.",
     favoriteItem: "The Classic OG Double Smash",
-    verifiedOrder: true,
+    verifiedOrder: false,
   },
   {
     id: "review-2",
@@ -30,7 +30,7 @@ export const testimonialsData: Testimonial[] = [
     comment:
       "The Truffle Mushroom Melt blew my mind. You can tell they don't take shortcuts — the gruyère is genuine, the truffle aioli is rich without overpowering the beef. And the salted caramel shake is legendary.",
     favoriteItem: "Truffle Mushroom Melt",
-    verifiedOrder: true,
+    verifiedOrder: false,
   },
   {
     id: "review-3",
@@ -41,7 +41,7 @@ export const testimonialsData: Testimonial[] = [
     comment:
       "Ordering through WhatsApp for quick weekend pickup was butter-smooth. The food was piping hot, fries remained miraculously crisp, and the staff treats everyone like old neighborhood friends.",
     favoriteItem: "Nashville Hot Butter Crunch",
-    verifiedOrder: true,
+    verifiedOrder: false,
   },
   {
     id: "review-4",
@@ -52,6 +52,6 @@ export const testimonialsData: Testimonial[] = [
     comment:
       "Beyond just looking gorgeous under camera lights, the texture profile is ridiculous. Sizzling crust, gooey cheese pull, fluffy bun. Bun & Bite has set an impossible standard in the city.",
     favoriteItem: "Smoky Texas Bacon Beast",
-    verifiedOrder: true,
+    verifiedOrder: false,
   },
 ];
