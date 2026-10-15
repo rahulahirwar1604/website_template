@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, ArrowRight, ShieldCheck, Clock, Award, Flame, Sparkles } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Clock, Award, Flame, Sparkles, MessageCircle } from 'lucide-react';
 import { businessConfig } from '@/data/business.config';
 import type { HeroContent } from '@/data/business.types';
 import { createWhatsAppUrl, getWhatsAppOrderMessage } from '@/lib/utils';
@@ -18,12 +18,10 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   ShieldCheck,
   Flame,
   Sparkles,
-  Star,
 };
 
 export default function Hero({
   content = businessConfig.hero,
-  stats = businessConfig.stats,
   whatsappNumber = businessConfig.whatsapp.number,
 }: HeroProps) {
   const {
@@ -48,131 +46,106 @@ export default function Hero({
       })
     );
 
-  const starCount = showcase.ratingStars ?? 5;
-
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 md:pt-16 md:pb-24 lg:pt-20 lg:pb-28 border-b border-white/[0.06]">
+    <section className="relative overflow-hidden py-6 sm:py-8 lg:py-16 bg-surface-ground border-b border-surface-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-          {/* Left Column: Typography Hierarchy & CTAs */}
-          <div className="lg:col-span-7 flex flex-col space-y-6 text-center lg:text-left">
-            {/* Kicker Badge */}
-            <div className="inline-flex items-center justify-center lg:justify-start">
-              <span className="badge-kicker">
-                <span>{kicker}</span>
-              </span>
-            </div>
+        <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-x-12 lg:gap-y-6 lg:items-center items-center text-center lg:text-left">
+          {/* 1. Kicker Badge */}
+          <div className="order-1 lg:order-1 lg:col-span-7 flex justify-center lg:justify-start mb-2 lg:mb-0">
+            <span className="badge-kicker">
+              <Flame className="w-3.5 h-3.5 text-amberGrill-600 shrink-0" />
+              <span>{kicker}</span>
+            </span>
+          </div>
 
-            {/* Primary Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.08]">
-              {headlinePart1} <br />
-              <span className="text-amberGrill-500">{headlineHighlight}</span> <br />
-              {headlinePart2}
-            </h1>
+          {/* 2. Single Primary Headline */}
+          <h1 className="order-2 lg:order-2 lg:col-span-7 text-2xl sm:text-3xl lg:text-[3.35rem] font-black tracking-tight text-ink-primary leading-tight lg:leading-[1.14] max-w-lg lg:max-w-none mx-auto lg:mx-0">
+            <span className="lg:block">
+              {headlinePart1} <span className="text-amberGrill-600">{headlineHighlight}</span>
+            </span>{' '}
+            <span className="lg:block">{headlinePart2}</span>
+          </h1>
 
-            {/* Lead Narrative */}
-            <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-              {description}
-            </p>
+          {/* 3. Hero Visual Food Showcase Card (Rendered exactly once) */}
+          <div className="order-3 lg:order-none lg:col-start-8 lg:col-span-5 lg:row-start-1 lg:row-span-3 w-full max-w-md sm:max-w-xl lg:max-w-none mx-auto mt-3 sm:mt-4 lg:mt-0 flex justify-center items-center">
+            <div className="card-base p-3 sm:p-4 lg:p-5 bg-white border border-surface-border rounded-2xl shadow-card-subtle overflow-hidden w-full">
+              {/* Appetizing Showcase Imagery */}
+              <div className="relative w-full aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden bg-surface-alt">
+                <Image
+                  src={showcase.image}
+                  alt={showcase.imageAlt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 576px, (max-width: 1200px) 50vw, 40vw"
+                  className="object-cover"
+                  priority
+                />
+                {/* Subtle dark gradient behind text for legibility */}
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none" />
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
-              <Link
-                href={primaryCtaLink}
-                className="btn-primary w-full sm:w-auto px-7 py-3.5 text-base space-x-2 group"
-              >
-                <span>{primaryCtaText}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary w-full sm:w-auto px-7 py-3.5 text-base"
-              >
-                <span>{secondaryCtaText}</span>
-              </a>
-            </div>
-
-            {/* Trust Proof Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/[0.08]">
-              {stats.map((stat, i) => (
-                <div key={i} className="flex flex-col items-center lg:items-start text-center lg:text-left">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                    {stat.value}
-                  </span>
-                  <span className="text-xs text-zinc-400 font-medium mt-0.5">
-                    {stat.label}
+                {/* Corner Badge */}
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5">
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] sm:text-xs font-bold bg-amberGrill-600 text-white shadow-xs">
+                    {showcase.cornerBadge}
                   </span>
                 </div>
-              ))}
+
+                {/* Image Bottom Overlay Details */}
+                <div className="absolute bottom-2.5 left-3 right-3 sm:bottom-3.5 sm:left-4 sm:right-4 text-left">
+                  <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-amber-300 font-bold">
+                    {showcase.recipeCategory}
+                  </p>
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-tight mt-0.5 truncate sm:whitespace-normal">
+                    {showcase.title}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Feature Highlights */}
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 mt-2.5 sm:mt-3 text-center">
+                {showcase.features.map((feat, i) => {
+                  const IconComponent = ICON_MAP[feat.icon] || Award;
+                  return (
+                    <div
+                      key={i}
+                      className="p-1.5 sm:p-2.5 rounded-xl bg-surface-alt border border-surface-border flex flex-col items-center justify-center"
+                    >
+                      <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amberGrill-600 mb-0.5 sm:mb-1 shrink-0" />
+                      <span className="text-[10px] sm:text-xs font-semibold text-ink-primary leading-tight">
+                        {feat.label}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Hero Visual Food Showcase */}
-          <div className="lg:col-span-5 relative flex justify-center items-center">
-            <div className="relative w-full max-w-lg lg:max-w-none">
-              <div className="card-base p-4 sm:p-5 overflow-hidden">
-                {/* Large Appetizing Showcase Imagery */}
-                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#0c0d0f]">
-                  <Image
-                    src={showcase.image}
-                    alt={showcase.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d0f]/90 via-[#0c0d0f]/20 to-transparent" />
+          {/* 4. Description and Actions Block */}
+          <div className="order-4 lg:order-3 lg:col-span-7 w-full max-w-md sm:max-w-xl lg:max-w-none mx-auto lg:mx-0 mt-3.5 sm:mt-5 lg:mt-0 pt-3.5 sm:pt-4 lg:pt-0 border-t border-surface-border lg:border-t-0 text-left">
+            <div className="flex flex-col sm:flex-row lg:flex-col sm:items-center lg:items-start justify-between gap-3.5 sm:gap-4 lg:gap-6">
+              {/* Angus Beef Description */}
+              <p className="text-xs sm:text-sm lg:text-lg text-ink-secondary leading-relaxed sm:flex-1 lg:flex-none lg:max-w-xl font-normal">
+                {description}
+              </p>
 
-                  {/* Corner Badge */}
-                  <div className="absolute top-3.5 left-3.5">
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-[#14161a]/90 text-amberGrill-400 border border-white/10 backdrop-blur-sm">
-                      {showcase.cornerBadge}
-                    </span>
-                  </div>
-
-                  {/* Image Bottom Overlay Details */}
-                  <div className="absolute bottom-3.5 left-4 right-4 flex items-end justify-between">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-wider text-amberGrill-400 font-semibold">
-                        {showcase.recipeCategory}
-                      </p>
-                      <h3 className="text-lg font-bold text-white leading-tight">
-                        {showcase.title}
-                      </h3>
-                      <div className="flex items-center space-x-1.5 mt-1">
-                        <div className="flex text-amber-400">
-                          {[...Array(starCount)].map((_, i) => (
-                            <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                          ))}
-                        </div>
-                        <span className="text-xs font-medium text-zinc-300">
-                          {showcase.ratingText}
-                        </span>
-                      </div>
-                    </div>
-                    <span className="text-xl font-bold text-white bg-amberGrill-500 px-3 py-1 rounded-lg">
-                      {showcase.price}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Restrained Feature Pills */}
-                <div className="grid grid-cols-3 gap-2.5 mt-3.5 text-center">
-                  {showcase.features.map((feat, i) => {
-                    const IconComponent = ICON_MAP[feat.icon] || Award;
-                    return (
-                      <div
-                        key={i}
-                        className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.05] flex flex-col items-center"
-                      >
-                        <IconComponent className="w-4 h-4 text-amberGrill-500 mb-1" />
-                        <span className="text-xs font-semibold text-zinc-200">{feat.label}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center sm:shrink-0 lg:shrink gap-2.5 sm:gap-3 lg:gap-3.5 w-full sm:w-auto lg:pt-1">
+                <Link
+                  href={primaryCtaLink}
+                  className="btn-primary w-full sm:w-auto px-6 lg:px-7 py-3 lg:py-3.5 text-xs sm:text-sm lg:text-base font-bold flex items-center justify-center space-x-2 rounded-xl shadow-btn-subtle min-h-[44px] group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
+                >
+                  <span>{primaryCtaText}</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
+                </Link>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary w-full sm:w-auto px-5 lg:px-7 py-2.5 lg:py-3.5 text-xs sm:text-sm lg:text-base font-semibold text-ink-primary hover:text-amberGrill-600 border border-surface-border hover:border-amberGrill-400 hover:bg-surface-hover transition-colors rounded-xl flex items-center justify-center space-x-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{secondaryCtaText}</span>
+                </a>
               </div>
             </div>
           </div>

@@ -25,40 +25,39 @@ export default function MenuCard({
   );
 
   return (
-    <article className="group relative flex flex-col card-interactive overflow-hidden">
-      {/* Large Appetizing Food Imagery */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#0c0d0f]">
+    <article className="group relative flex flex-row-reverse sm:flex-col card-interactive bg-white overflow-hidden rounded-2xl border border-surface-border p-3.5 sm:p-0 gap-3 sm:gap-0 justify-between items-stretch">
+      {/* Food Imagery (Right thumbnail on mobile, full-width top header on desktop) */}
+      <div className="relative w-[104px] h-[104px] sm:w-full sm:h-auto sm:aspect-[4/3] shrink-0 overflow-hidden rounded-xl sm:rounded-none bg-surface-alt self-center sm:self-auto">
         <Image
           src={item.image}
           alt={item.name}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 104px, (max-width: 1024px) 50vw, 33vw"
           className="object-cover group-hover:scale-[1.03] transition-transform duration-300 ease-out"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14161a] via-transparent to-transparent opacity-50 group-hover:opacity-60 transition-opacity" />
 
-        {/* Refined Badges */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-1.5 pointer-events-none">
+        {/* Desktop Badges Overlay (Preserved for desktop presentation) */}
+        <div className="hidden sm:flex absolute top-3 left-3 right-3 items-start justify-between gap-1.5 pointer-events-none">
           <div className="flex flex-wrap gap-1.5">
             {item.isChefSpecial && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-500 text-zinc-950">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-600 text-white shadow-xs">
                 Chef Pick
               </span>
             )}
             {item.isPopular && !item.isChefSpecial && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amberGrill-500 text-white">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold bg-amberGrill-600 text-white shadow-xs">
                 Best Seller
               </span>
             )}
             {item.isSpicy && (
-              <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-red-600/90 text-white">
+              <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-red-700 text-white shadow-xs">
                 <Flame className="w-3 h-3" />
                 <span>Spicy</span>
               </span>
             )}
             {item.isVegetarian && (
-              <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-600/90 text-white">
+              <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-700 text-white shadow-xs">
                 <Leaf className="w-3 h-3" />
                 <span>Plant-Based</span>
               </span>
@@ -66,51 +65,102 @@ export default function MenuCard({
           </div>
 
           {item.calories && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#0c0d0f]/80 text-zinc-300 border border-white/10 backdrop-blur-sm">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-black/70 text-white border border-white/20 backdrop-blur-xs shadow-xs">
               {item.calories} kcal
             </span>
           )}
         </div>
       </div>
 
-      {/* Card Content & Hierarchy */}
-      <div className="p-5 flex-1 flex flex-col justify-between">
+      {/* Card Content & Hierarchy (Left column on mobile, bottom body on desktop) */}
+      <div className="p-0 sm:p-5 flex-1 flex flex-col justify-between min-w-0">
         <div>
-          {/* Category & Star Rating */}
-          <div className="flex items-center justify-between text-xs text-zinc-400 mb-1.5">
-            <span className="font-semibold text-amberGrill-400 uppercase tracking-wider text-[11px]">
+          {/* Mobile Dietary & Star Rating Row */}
+          <div className="flex sm:hidden items-center justify-between gap-1.5 mb-1.5 text-xs">
+            {/* Prioritized Dietary or Specialty Badge */}
+            <div className="flex items-center gap-1.5 flex-nowrap min-w-0">
+              {item.isVegetarian && (
+                <span className="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300/60 shrink-0">
+                  <Leaf className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
+                  <span>Veg</span>
+                </span>
+              )}
+              {item.isSpicy && (
+                <span className="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-800 border border-red-300/60 shrink-0">
+                  <Flame className="w-2.5 h-2.5 text-red-600 shrink-0" />
+                  <span>Spicy</span>
+                </span>
+              )}
+              {item.isChefSpecial && !item.isVegetarian && !item.isSpicy && (
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300/60 shrink-0">
+                  Chef Pick
+                </span>
+              )}
+              {item.isPopular && !item.isChefSpecial && !item.isVegetarian && !item.isSpicy && (
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300/60 shrink-0">
+                  Best Seller
+                </span>
+              )}
+            </div>
+
+            {/* Compact Star Rating (Clearly labeled sample rating) */}
+            {(businessConfig.menuPage?.showSampleRatings ?? true) && (
+              <div
+                className="flex items-center space-x-1 shrink-0 font-medium"
+                aria-label={`Sample rating ${item.rating.toFixed(1)} out of 5 stars (illustrative demonstration)`}
+                title="Sample rating (illustrative demonstration)"
+              >
+                <Star className="w-3 h-3 fill-amber-500 text-amber-500 shrink-0" />
+                <span className="font-bold text-ink-primary text-xs">{item.rating.toFixed(1)}</span>
+                <span className="text-ink-muted text-[10px] font-semibold">
+                  ({businessConfig.menuPage?.sampleRatingsLabel || 'Sample'})
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Category & Star Rating */}
+          <div className="hidden sm:flex items-center justify-between text-xs mb-2">
+            <span className="font-bold text-amberGrill-600 uppercase tracking-wider text-[11px]">
               {item.category}
             </span>
-            <div className="flex items-center space-x-1 text-amber-400 font-medium" aria-label={`Rated ${item.rating} out of 5 stars`}>
-              <Star className="w-3.5 h-3.5 fill-amber-400" />
-              <span className="font-semibold">{item.rating.toFixed(1)}</span>
-              <span className="text-zinc-500 text-[11px]">({item.reviewsCount})</span>
-            </div>
+            {(businessConfig.menuPage?.showSampleRatings ?? true) && (
+              <div
+                className="flex items-center space-x-1 font-medium"
+                aria-label={`Sample rating ${item.rating.toFixed(1)} out of 5 stars (illustrative demonstration)`}
+              >
+                <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                <span className="font-bold text-ink-primary text-xs">{item.rating.toFixed(1)}</span>
+                <span className="text-ink-muted text-[11px] font-semibold">
+                  ({businessConfig.menuPage?.sampleRatingsLabel || 'Sample'})
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Dish Name */}
-          <h3 className="text-lg font-bold text-white group-hover:text-amberGrill-400 transition-colors line-clamp-1">
+          <h3 className="text-sm sm:text-lg font-bold text-ink-primary group-hover:text-amberGrill-600 transition-colors line-clamp-2 leading-snug">
             {item.name}
           </h3>
 
           {/* Description */}
-          <p className="mt-2 text-xs sm:text-sm text-zinc-300 line-clamp-2 leading-relaxed">
+          <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-ink-secondary line-clamp-2 leading-relaxed">
             {item.description}
           </p>
 
-          {/* Ingredients */}
+          {/* Desktop Ingredients Chips (hidden on mobile to keep card compact) */}
           {item.ingredients && item.ingredients.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-1">
+            <div className="hidden sm:flex mt-3 flex-wrap gap-1.5">
               {item.ingredients.slice(0, 3).map((ing, idx) => (
                 <span
                   key={idx}
-                  className="text-[11px] px-2 py-0.5 rounded bg-white/[0.04] text-zinc-400 border border-white/[0.04]"
+                  className="text-[11px] px-2 py-0.5 rounded-md bg-surface-alt text-ink-secondary border border-surface-border font-medium"
                 >
                   {ing}
                 </span>
               ))}
               {item.ingredients.length > 3 && (
-                <span className="text-[11px] px-1.5 py-0.5 text-zinc-500">
+                <span className="text-[11px] px-1.5 py-0.5 text-ink-secondary font-medium">
                   +{item.ingredients.length - 3} more
                 </span>
               )}
@@ -119,15 +169,17 @@ export default function MenuCard({
         </div>
 
         {/* Pricing & CTA Button */}
-        <div className="mt-5 pt-4 border-t border-white/[0.08] flex items-center justify-between">
-          <div className="flex flex-col">
-            <span className="text-[11px] text-zinc-400 font-medium uppercase tracking-wider">Price</span>
-            <div className="flex items-baseline space-x-1.5">
-              <span className="text-xl font-bold text-white">
+        <div className="mt-2.5 sm:mt-5 pt-2 sm:pt-4 border-t border-surface-border flex items-center justify-between gap-2 sm:gap-3">
+          <div className="flex flex-col min-w-0 shrink">
+            <span className="hidden sm:block text-[10px] text-ink-secondary font-bold uppercase tracking-wider">
+              Price
+            </span>
+            <div className="flex items-baseline flex-nowrap gap-x-1.5">
+              <span className="text-base sm:text-xl font-extrabold text-ink-primary whitespace-nowrap">
                 {formatPrice(item.price)}
               </span>
               {item.originalPrice && (
-                <span className="text-xs text-zinc-500 line-through">
+                <span className="text-[11px] sm:text-xs text-ink-muted line-through whitespace-nowrap">
                   {formatPrice(item.originalPrice)}
                 </span>
               )}
@@ -138,10 +190,10 @@ export default function MenuCard({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Order ${item.name} on WhatsApp`}
-            className="btn-primary py-2 px-3.5 text-xs font-bold space-x-1.5"
+            aria-label={`Order ${item.name} for ${formatPrice(item.price)} on WhatsApp`}
+            className="btn-primary shrink-0 py-2 sm:py-2.5 px-3.5 sm:px-4 text-xs font-bold space-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 rounded-xl min-h-[44px] flex items-center justify-center shadow-xs touch-manipulation"
           >
-            <ShoppingBag className="w-3.5 h-3.5" />
+            <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
             <span>Order</span>
           </a>
         </div>

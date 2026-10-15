@@ -21,6 +21,9 @@ import type { AboutContent } from '@/data/business.types';
 export const metadata: Metadata = {
   title: businessConfig.about.metaTitle,
   description: businessConfig.about.metaDescription,
+  alternates: {
+    canonical: '/about',
+  },
 };
 
 const PILLAR_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -40,35 +43,38 @@ export default function AboutPage() {
   const about = businessConfig.about;
 
   return (
-    <div className="pt-2 pb-20">
-      {/* Page Header */}
-      <section className="py-12 md:py-20 bg-[#101216] border-b border-white/[0.06]">
+    <div className="pb-20">
+      {/* Page Header (Warm Restaurant Aesthetic) */}
+      <section className="py-8 sm:py-12 md:py-16 bg-surface-alt border-b border-surface-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="badge-kicker mb-3">
-            <span>{about.kicker}</span>
-          </span>
+          <div className="inline-flex items-center justify-center mb-2.5 sm:mb-3">
+            <span className="badge-kicker">
+              <ChefHat className="w-3.5 h-3.5 text-amberGrill-600 shrink-0" />
+              <span>{about.kicker}</span>
+            </span>
+          </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-ink-primary tracking-tight">
             {about.headline}
           </h1>
 
-          <p className="mt-4 text-base sm:text-xl text-zinc-300 leading-relaxed">
+          <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base lg:text-lg text-ink-secondary max-w-2xl mx-auto leading-relaxed">
             {about.intro}
           </p>
         </div>
       </section>
 
       {/* Story Narrative & Visuals */}
-      <section className="section-spacing">
+      <section className="section-spacing bg-surface-ground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Story Column */}
             <div className="lg:col-span-6 space-y-6">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-ink-primary">
                 {about.storySectionTitle}
               </h2>
 
-              <div className="space-y-4 text-base text-zinc-300 leading-relaxed">
+              <div className="space-y-4 text-base text-ink-secondary leading-relaxed">
                 {about.fullStory.map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
@@ -77,8 +83,8 @@ export default function AboutPage() {
               {/* Core Tenets Checklist */}
               <div className="pt-3 space-y-3">
                 {about.coreTenets.map((tenet, idx) => (
-                  <div key={idx} className="flex items-center space-x-3 text-sm text-zinc-200">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <div key={idx} className="flex items-center space-x-3 text-sm text-ink-primary font-medium">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                     <span>{tenet}</span>
                   </div>
                 ))}
@@ -105,7 +111,7 @@ export default function AboutPage() {
                     <p className="text-lg font-bold text-white mt-1">
                       &ldquo;{about.foundersQuote.quote}&rdquo;
                     </p>
-                    <p className="text-xs text-zinc-400 mt-1">
+                    <p className="text-xs text-zinc-300 mt-1">
                       {about.foundersQuote.author}
                     </p>
                   </div>
@@ -114,9 +120,9 @@ export default function AboutPage() {
                 {/* Metrics Banner */}
                 <div className="grid grid-cols-3 gap-3 mt-4 text-center">
                   {about.metrics.map((m, idx) => (
-                    <div key={idx} className="p-3 rounded-xl bg-surface-ground border border-white/10">
-                      <div className="text-2xl font-black text-amberGrill-500">{m.value}</div>
-                      <div className="text-[11px] text-zinc-400 font-medium">{m.label}</div>
+                    <div key={idx} className="p-2.5 sm:p-3 rounded-xl bg-surface-alt border border-surface-border">
+                      <div className="text-xl sm:text-2xl font-black text-amberGrill-600">{m.value}</div>
+                      <div className="text-[10px] sm:text-[11px] text-ink-secondary font-semibold">{m.label}</div>
                     </div>
                   ))}
                 </div>
@@ -127,25 +133,27 @@ export default function AboutPage() {
       </section>
 
       {/* The 4 Pillars */}
-      <section className="py-16 md:py-20 bg-[#101216] border-y border-white/[0.06]">
+      <section className="py-10 sm:py-16 md:py-20 bg-surface-alt border-y border-surface-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl font-black text-white">{about.pillarsTitle}</h2>
-            <p className="mt-2 text-sm text-zinc-400">
+          <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-black text-ink-primary">{about.pillarsTitle}</h2>
+            <p className="mt-2 text-xs sm:text-sm text-ink-secondary">
               {about.pillarsSubtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {about.pillars.map((pillar, idx) => {
               const IconComponent = PILLAR_ICON_MAP[pillar.icon] || Award;
               return (
-                <div key={idx} className="card-base p-6">
-                  <IconComponent className="w-7 h-7 text-amberGrill-500 mb-3" />
-                  <h3 className="text-base font-bold text-white mb-2">{pillar.title}</h3>
-                  <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                    {pillar.description}
-                  </p>
+                <div key={idx} className="card-base p-3.5 sm:p-6 flex flex-col justify-between h-full">
+                  <div>
+                    <IconComponent className="w-5 h-5 sm:w-7 sm:h-7 text-amberGrill-600 mb-2 sm:mb-3" />
+                    <h3 className="text-xs sm:text-base font-bold text-ink-primary mb-1 sm:mb-2 leading-snug">{pillar.title}</h3>
+                    <p className="text-[11px] sm:text-xs md:text-sm text-ink-secondary leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -153,10 +161,10 @@ export default function AboutPage() {
 
           {/* CTA Link */}
           {about.ctaText && (
-            <div className="mt-12 text-center">
+            <div className="mt-8 sm:mt-12 text-center">
               <Link
                 href={about.ctaLink || '/menu'}
-                className="btn-primary px-8 py-3.5 text-sm font-bold space-x-2"
+                className="btn-primary px-8 py-3.5 text-sm font-bold space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 rounded-xl"
               >
                 <span>{about.ctaText}</span>
                 <ArrowRight className="w-4 h-4" />

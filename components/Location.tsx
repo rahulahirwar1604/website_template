@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import {
   MapPin,
@@ -32,6 +30,7 @@ export interface LocationProps {
   contact?: BusinessContact;
   openingHours?: BusinessOpeningHours;
   whatsappNumber?: string;
+  variant?: 'default' | 'streamlined';
 }
 
 const AMENITY_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -54,6 +53,7 @@ export default function Location({
   contact = businessConfig.contact,
   openingHours = businessConfig.openingHours,
   whatsappNumber = businessConfig.whatsapp.number,
+  variant = 'default',
 }: LocationProps = {}) {
   const whatsappUrl = createWhatsAppUrl(
     whatsappNumber,
@@ -64,41 +64,51 @@ export default function Location({
     })
   );
 
+  const isStreamlined = variant === 'streamlined';
+
   return (
-    <section id="location-section" className="section-spacing bg-[#101216] border-t border-white/[0.06] relative">
+    <section id="location-section" className="py-10 sm:py-16 md:py-20 bg-surface-alt border-t border-surface-border relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-14">
-          <span className="badge-kicker mb-3">
-            <MapPin className="w-3.5 h-3.5" />
+        <div className={`flex flex-col items-center text-center max-w-3xl mx-auto ${isStreamlined ? 'mb-6 sm:mb-10' : 'mb-8 sm:mb-14'}`}>
+          <span className="badge-kicker mb-2.5 sm:mb-3">
+            <MapPin className="w-3.5 h-3.5 text-amberGrill-600 shrink-0" />
             <span>{location.sectionKicker}</span>
           </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-ink-primary tracking-tight">
             {location.sectionTitle}
           </h2>
 
-          <p className="mt-3 text-base sm:text-lg text-zinc-400">
+          <p className="mt-2.5 sm:mt-3 text-xs sm:text-base lg:text-lg text-ink-secondary max-w-2xl">
             {location.sectionSubtitle}
           </p>
         </div>
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Address, Hours, Amenities */}
-          <div className="lg:col-span-6 space-y-6">
-            {/* Address Card */}
-            <div className="card-base p-6 sm:p-8">
-              <div className="flex items-start space-x-4">
-                <div className="w-11 h-11 rounded-xl bg-amberGrill-500/10 border border-amberGrill-500/20 flex items-center justify-center shrink-0 text-amberGrill-500">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* Left Column: Address (if not streamlined), Hours, Amenities */}
+          <div className="lg:col-span-6 space-y-4 sm:space-y-6">
+            {/* Address Card (omitted in streamlined mode to eliminate redundancy with contact card & map panel) */}
+            {!isStreamlined && (
+              <div className="card-base p-4 sm:p-6 lg:p-8">
+              <div className="flex items-start space-x-3.5 sm:space-x-4">
+                <div className="w-11 h-11 rounded-xl bg-amber-100/70 border border-amber-300 flex items-center justify-center shrink-0 text-amberGrill-600">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">{location.flagshipCardTitle}</h3>
-                  <p className="mt-1 text-sm text-zinc-300">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-lg font-bold text-ink-primary">{location.flagshipCardTitle}</h3>
+                    {location.sampleBadgeText && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+                        {location.sampleBadgeText}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-sm text-ink-secondary">
                     {address.fullAddress}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-1">
+                  <p className="text-xs text-ink-muted mt-1">
                     {address.landmarkHint}
                   </p>
 
@@ -107,61 +117,63 @@ export default function Location({
                       href={address.googleMapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-primary py-2.5 px-4 text-xs font-bold space-x-1.5"
+                      className="btn-primary py-2.5 px-4 text-xs font-bold space-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 rounded-xl"
+                      aria-label="Search sample address on Google Maps (template demonstration)"
                     >
                       <Navigation className="w-3.5 h-3.5" />
-                      <span>Get Directions</span>
+                      <span>{location.mapDirectionsButtonText || 'Search Sample Address on Maps'}</span>
                     </a>
                     <a
                       href={`tel:${contact.phone}`}
-                      className="btn-secondary py-2.5 px-4 text-xs font-semibold space-x-1.5"
+                      className="btn-secondary py-2.5 px-4 text-xs font-semibold space-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 rounded-xl"
                     >
-                      <Phone className="w-3.5 h-3.5 text-amberGrill-500" />
+                      <Phone className="w-3.5 h-3.5 text-amberGrill-600" />
                       <span>{location.callButtonText || 'Call Us'}</span>
                     </a>
                   </div>
                 </div>
               </div>
             </div>
+          )}
 
             {/* Operating Hours Card */}
-            <div className="card-base p-6 sm:p-8">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-surface-ground border border-white/10 flex items-center justify-center text-amberGrill-500">
+            <div className="card-base p-4 sm:p-6 lg:p-8">
+              <div className="flex items-center space-x-3 mb-3.5 sm:mb-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-ground border border-surface-border flex items-center justify-center text-amberGrill-600 shrink-0">
                   <Clock className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">{location.hoursCardTitle}</h3>
+                  <h3 className="text-base font-bold text-ink-primary">{location.hoursCardTitle}</h3>
                   <div className="flex items-center space-x-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span className="text-xs font-semibold text-emerald-400">
+                    <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                    <span className="text-xs font-semibold text-emerald-700">
                       {location.openStatusText || 'Open Today'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="divide-y divide-white/[0.06]">
+              <div className="divide-y divide-surface-border">
                 {openingHours.schedule.map((h, i) => (
-                  <div key={i} className="py-2.5 flex items-center justify-between text-sm">
-                    <span className="text-zinc-300 font-medium">{h.days}</span>
-                    <span className="text-zinc-400 font-semibold">{h.hours}</span>
+                  <div key={i} className="py-2 sm:py-2.5 flex items-center justify-between text-xs sm:text-sm">
+                    <span className="text-ink-primary font-medium">{h.days}</span>
+                    <span className="text-ink-secondary font-semibold">{h.hours}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Amenities Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
               {location.amenities.map((item, idx) => {
                 const IconComponent = AMENITY_ICON_MAP[item.icon] || MapPin;
                 return (
                   <div
                     key={idx}
-                    className="p-3 rounded-xl bg-surface-card border border-white/10 flex flex-col items-center text-center"
+                    className="p-2.5 sm:p-3 rounded-xl bg-white border border-surface-border flex flex-col items-center text-center shadow-card-subtle"
                   >
-                    <IconComponent className="w-4 h-4 text-amberGrill-500 mb-1" />
-                    <span className="text-xs font-medium text-zinc-300">{item.label}</span>
+                    <IconComponent className="w-4 h-4 text-amberGrill-600 mb-1" />
+                    <span className="text-[11px] sm:text-xs font-semibold text-ink-primary">{item.label}</span>
                   </div>
                 );
               })}
@@ -170,8 +182,8 @@ export default function Location({
 
           {/* Right Column: Architectural Map Visual Panel */}
           <div className="lg:col-span-6">
-            <div className="card-base p-4 sm:p-6 overflow-hidden">
-              <div className="relative w-full h-[360px] sm:h-[420px] rounded-xl overflow-hidden bg-[#0c0d0f] border border-white/10 flex flex-col items-center justify-center text-center p-6">
+            <div className="card-base p-3 sm:p-6 overflow-hidden">
+              <div className="relative w-full h-[280px] sm:h-[360px] md:h-[420px] rounded-xl overflow-hidden bg-[#0c0d0f] border border-white/10 flex flex-col items-center justify-center text-center p-4 sm:p-6">
                 {/* Subtle map pattern */}
                 <div
                   className="absolute inset-0 opacity-10"
@@ -183,29 +195,38 @@ export default function Location({
 
                 {/* Map Pin Graphic */}
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-amberGrill-500 flex items-center justify-center text-white shadow-md">
-                    <MapPin className="w-6 h-6" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-amberGrill-500 flex items-center justify-center text-white shadow-md">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
 
-                  <div className="mt-5 max-w-sm card-base p-4 shadow-lg">
-                    <h4 className="font-bold text-white text-base">{location.mapPinTitle}</h4>
-                    <p className="text-xs text-zinc-400 mt-1">
+                  <div className="mt-3.5 sm:mt-5 max-w-sm card-base p-3.5 sm:p-4 shadow-lg">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <h4 className="font-bold text-ink-primary text-sm sm:text-base">{location.mapPinTitle}</h4>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">
+                        Demo
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-secondary mt-1">
                       {address.street}, {address.city}, {address.state}
                     </p>
-                    <div className="mt-3.5 flex items-center justify-center space-x-2">
+                    <p className="text-[11px] text-ink-muted mt-1">
+                      {location.mapPinSubtext || 'Illustrative template pin for layout showcase.'}
+                    </p>
+                    <div className="mt-3.5 flex flex-wrap items-center justify-center gap-2">
                       <a
                         href={address.googleMapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-primary py-1.5 px-3 text-xs font-bold"
+                        className="btn-primary py-2 px-3 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 rounded-xl min-h-[38px] flex items-center justify-center"
+                        aria-label="Search sample address on Google Maps"
                       >
-                        Open Maps
+                        Search Maps (Demo)
                       </a>
                       <a
                         href={whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-secondary py-1.5 px-3 text-xs font-semibold"
+                        className="btn-secondary py-2 px-3 text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 rounded-xl min-h-[38px] flex items-center justify-center"
                       >
                         Ask on WhatsApp
                       </a>

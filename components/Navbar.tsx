@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Clock, Phone, ShoppingBag } from 'lucide-react';
+import { Menu, X, ShoppingBag, Phone } from 'lucide-react';
 import { businessConfig } from '@/data/business.config';
 import type {
   NavbarContent,
@@ -27,13 +27,30 @@ export interface NavbarProps {
 export default function Navbar({
   navbar = businessConfig.navbar,
   identity = businessConfig.identity,
-  address = businessConfig.address,
   contact = businessConfig.contact,
-  openingHours = businessConfig.openingHours,
   whatsappNumber = businessConfig.whatsapp.number,
 }: NavbarProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        e.preventDefault();
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   const whatsappOrderUrl = createWhatsAppUrl(
     whatsappNumber,
@@ -45,46 +62,17 @@ export default function Navbar({
       {/* Skip to Content for Accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-amberGrill-500 focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-md"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-amberGrill-500 focus:text-white focus:rounded-xl focus:font-semibold focus:shadow-md"
       >
         Skip to main content
       </a>
 
-      {/* Top Utility Bar (Subtle, Clean Restaurant Status) */}
-      <div className="bg-[#0f1114] border-b border-white/[0.06] py-2 px-4 text-xs text-zinc-400">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2.5">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
-              {navbar.statusBadge}
-            </span>
-            <span className="hidden sm:inline text-zinc-400">
-              {address.topBarBadge}
-            </span>
-          </div>
-
-          <div className="flex items-center space-x-5">
-            <div className="hidden md:flex items-center text-zinc-400">
-              <Clock className="w-3.5 h-3.5 mr-1.5 text-zinc-400" />
-              <span>{openingHours.todayStatus}</span>
-            </div>
-            <a
-              href={`tel:${contact.phone}`}
-              className="flex items-center text-zinc-300 hover:text-amberGrill-400 transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 mr-1.5 text-amberGrill-500" />
-              <span className="font-semibold">{contact.displayPhone}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Primary Sticky Header */}
-      <header className="sticky top-0 z-40 bg-[#0c0d0f]/90 backdrop-blur-md border-b border-white/[0.08]">
+      {/* Primary Sticky Header (Clean light surface with subtle bottom border) */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-surface-border shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16 md:h-20">
             {/* Brand Logo */}
-            <BrandLogo size="md" identity={identity} />
+            <BrandLogo size="md" identity={identity} variant="light" />
 
             {/* Desktop Navigation Links */}
             <nav className="hidden md:flex items-center space-x-1" aria-label="Primary Navigation">
@@ -94,10 +82,10 @@ export default function Navbar({
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3.5 py-2 rounded-xl text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 ${
                       isActive
-                        ? 'text-white bg-white/[0.06] font-semibold'
-                        : 'text-zinc-300 hover:text-white hover:bg-white/[0.04]'
+                        ? 'text-amberGrill-600 bg-amber-50 font-bold border border-amber-200/60 shadow-xs'
+                        : 'text-ink-secondary hover:text-ink-primary hover:bg-surface-subtle font-medium'
                     }`}
                   >
                     {link.label}
@@ -110,7 +98,7 @@ export default function Navbar({
             <div className="hidden md:flex items-center space-x-3">
               <Link
                 href="/menu"
-                className="btn-secondary px-4 py-2.5 text-xs font-semibold"
+                className="btn-secondary px-4 py-2.5 text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
               >
                 {navbar.menuCtaText}
               </Link>
@@ -118,33 +106,34 @@ export default function Navbar({
                 href={whatsappOrderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary px-4 py-2.5 text-xs font-bold space-x-2"
+                className="btn-primary px-4 py-2.5 text-xs font-bold space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 <span>{navbar.orderCtaText}</span>
               </a>
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Controls (Minimum 44x44px touch targets) */}
             <div className="flex md:hidden items-center space-x-2">
               <a
                 href={whatsappOrderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Order on WhatsApp"
-                className="p-2.5 rounded-lg bg-surface-card border border-white/10 text-amberGrill-400"
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-amber-50 border border-amber-200/80 text-amberGrill-600 hover:bg-amber-100 flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
               >
                 <ShoppingBag className="w-5 h-5" />
               </a>
               <button
+                ref={triggerRef}
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2.5 rounded-lg text-zinc-300 hover:text-white bg-surface-card border border-white/10"
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl text-ink-primary bg-white border border-surface-border hover:bg-surface-subtle flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
                 aria-expanded={isOpen}
                 aria-controls="mobile-navigation"
                 aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
               >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -154,9 +143,9 @@ export default function Navbar({
         {isOpen && (
           <div
             id="mobile-navigation"
-            className="md:hidden bg-[#101216] border-b border-white/10 px-4 pt-3 pb-6"
+            className="md:hidden bg-white border-b border-surface-border px-4 pt-3 pb-6 shadow-card-elevated"
           >
-            <nav className="flex flex-col space-y-1">
+            <nav className="flex flex-col space-y-1.5" aria-label="Mobile Navigation">
               {navbar.navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -164,10 +153,10 @@ export default function Navbar({
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors min-h-[44px] flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500 ${
                       isActive
-                        ? 'text-white bg-white/[0.08] font-semibold'
-                        : 'text-zinc-300 hover:text-white hover:bg-white/[0.04]'
+                        ? 'text-amberGrill-600 bg-amber-50 font-bold border border-amber-200/60'
+                        : 'text-ink-secondary hover:text-ink-primary hover:bg-surface-subtle'
                     }`}
                   >
                     {link.label}
@@ -176,22 +165,22 @@ export default function Navbar({
               })}
             </nav>
 
-            <div className="mt-4 pt-4 border-t border-white/10 flex flex-col space-y-2">
+            <div className="mt-4 pt-4 border-t border-surface-border flex flex-col space-y-2.5">
               <a
                 href={whatsappOrderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
-                className="btn-primary w-full py-3 text-sm font-bold flex items-center justify-center space-x-2"
+                className="btn-primary w-full py-3 text-sm font-bold flex items-center justify-center space-x-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>{navbar.mobileOrderCtaText}</span>
               </a>
               <a
                 href={`tel:${contact.phone}`}
-                className="btn-secondary w-full py-2.5 text-xs font-semibold flex items-center justify-center space-x-2"
+                className="btn-secondary w-full py-2.5 text-xs font-semibold flex items-center justify-center space-x-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amberGrill-500"
               >
-                <Phone className="w-3.5 h-3.5 text-amberGrill-400" />
+                <Phone className="w-3.5 h-3.5 text-amberGrill-600" />
                 <span>{navbar.callCtaPrefix} {contact.displayPhone}</span>
               </a>
             </div>
