@@ -34,7 +34,7 @@ This template provides a production-grade digital storefront for restaurants, ca
 - **Menu Page**: Filterable and searchable menu catalog with dietary filter pills (Vegetarian, Spicy), category tabs, and dietary legend indicators.
 - **About Page**: Brand story, culinary tenets, founder quote, key statistics, and quality pillars.
 - **Contact Page**: Interactive inquiry form, direct contact channels (Phone, Email, WhatsApp, Address), and physical grill map details.
-- **Global Elements**: Sticky navigation with opening status badge, accessible mobile navigation drawer, comprehensive footer with newsletter signup, and floating WhatsApp ordering button.
+- **Global Elements**: Sticky navigation with opening status badge, accessible mobile navigation drawer, comprehensive footer with newsletter signup, and floating multi-channel order hub (`FloatingOrderHub`).
 
 ### Key Architectural Separation
 
@@ -77,12 +77,17 @@ bun-and-bite/
 │   │   └── page.tsx         # Contact page: form, channels & location
 │   ├── menu/
 │   │   └── page.tsx         # Full menu page with category filters & search
+│   ├── error.tsx            # Client-side runtime error recovery boundary
 │   ├── globals.css          # Theme variables, base styles & utility classes
-│   ├── layout.tsx           # Root layout: Navbar, Footer, WhatsApp FAB & Schema.org JSON-LD
-│   └── page.tsx             # Homepage composition
+│   ├── layout.tsx           # Root layout: Navbar, Footer, FloatingOrderHub & Schema.org JSON-LD
+│   ├── not-found.tsx        # Branded 404 page with navigation fallbacks
+│   ├── page.tsx             # Homepage composition
+│   ├── robots.ts            # Crawler directives metadata route
+│   └── sitemap.ts           # XML sitemap discovery metadata route
 │
 ├── components/
 │   ├── BrandLogo.tsx        # Brand emblem and text logo with responsive sizing
+│   ├── FloatingOrderHub.tsx # Multi-channel floating ordering hub (WhatsApp + partner links)
 │   ├── Footer.tsx           # Multi-column footer: hours, newsletter, legal & socials
 │   ├── Hero.tsx             # High-impact hero section with showcase card & stats
 │   ├── Location.tsx         # Physical address, hours, directions link & amenities
@@ -90,8 +95,7 @@ bun-and-bite/
 │   ├── MenuSection.tsx      # Searchable & filterable menu grid with dietary toggles
 │   ├── Navbar.tsx           # Sticky navigation, status badge & mobile drawer
 │   ├── Offers.tsx           # Promotional combo cards with 1-click coupon copy
-│   ├── Testimonials.tsx     # Review grid with social proof banner & favorite dish pills
-│   └── WhatsAppButton.tsx   # Floating Action Button with order pulse tooltip
+│   └── Testimonials.tsx     # Review grid with social proof banner & favorite dish pills
 │
 ├── data/
 │   ├── business.config.ts   # Centralized business presentation & content data
